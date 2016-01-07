@@ -1,0 +1,39 @@
+{
+  "name": "csgo-float",
+  "version": "0.0.1",
+  "description": "CS:GO Float values",
+  "main": "dist",
+  "scripts": {
+    "start": "babel-node example",
+    "build": "rm -rf dist && mkdir dist && babel src -o dist/index.js",
+    "protos": "babel-node protos/update",
+    "postinstall": "npm run protos"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkinsBazaar/csgo-float-values.git"
+  },
+  "keywords": [
+    "csgo",
+    "csgofloat",
+    "float",
+    "market",
+    "skinsbazaar"
+  ],
+  "author": "Balthazar Gronon <bgronon@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Apercu/csgo-float-values/issues"
+  },
+  "homepage": "https://github.com/Apercu/csgo-float-values#readme",
+  "dependencies": {
+    "protobufjs": "^4.1.3",
+    "q": "^1.4.1",
+    "steam": "^1.4.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.3.17",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-stage-0": "^6.3.13"
+  }
+}
