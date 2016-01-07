@@ -11,7 +11,7 @@ import {
 
 import protos from '../protos'
 
-export default class FloatClient extends EventEmitter {
+class FloatClient extends EventEmitter {
 
   constructor (props, debug) {
 
@@ -148,3 +148,5 @@ export default class FloatClient extends EventEmitter {
   }
 
 }
+
+module.exports = FloatClient
