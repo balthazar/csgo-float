@@ -1,6 +1,6 @@
 {
   "name": "csgo-float",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "CS:GO Float values",
   "main": "dist",
   "scripts": {
