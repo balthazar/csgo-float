@@ -44,3 +44,8 @@ Where url is a string formatted like `S76561198190349706A4757476613D164679780128
 `sentry` The user is authenticated and the account sentry is sent, should be saved somewhere
 
 `error` Once an error is triggered
+
+
+#### Thanks
+
+This would not exists without the help of [@Twewki](https://github.com/Tewki).
