@@ -1,6 +1,6 @@
 {
   "name": "csgo-float",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "CS:GO Float values",
   "main": "dist",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SkinsBazaar/csgo-float-values.git"
+    "url": "git+https://github.com/Apercu/csgo-float.git"
   },
   "keywords": [
     "csgo",
@@ -23,9 +23,9 @@
   "author": "Balthazar Gronon <bgronon@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Apercu/csgo-float-values/issues"
+    "url": "https://github.com/Apercu/csgo-float/issues"
   },
-  "homepage": "https://github.com/Apercu/csgo-float-values#readme",
+  "homepage": "https://github.com/Apercu/csgo-float#readme",
   "dependencies": {
     "protobufjs": "^4.1.3",
     "q": "^1.4.1",
