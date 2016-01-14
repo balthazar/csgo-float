@@ -1,10 +1,12 @@
 # csgo-float
 
-> Retrieve CS:GO float values in Node.JS
+> Retrieve CS:GO float values in JavaScript
 
     npm i -S csgo-float
     
 #### Usage
+
+Only one request can be done at a time by each client. You'll have to wait for the first request to be processed before sending another one.
 
 ###### Client
 
