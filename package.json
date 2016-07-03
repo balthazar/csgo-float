@@ -1,13 +1,12 @@
 {
   "name": "csgo-float",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "CS:GO Float values",
   "main": "dist",
   "scripts": {
     "start": "babel-node example",
     "build": "rm -rf dist && mkdir dist && babel src -o dist/index.js",
-    "protos": "babel-node protos/update",
-    "postinstall": "npm run protos && npm run build"
+    "protos": "babel-node protos/update"
   },
   "repository": {
     "type": "git",
