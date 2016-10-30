@@ -69,10 +69,12 @@ class FloatClient extends EventEmitter {
   requestFloat (url) {
 
     if (!this._gcLoaded) { return this.emit('error', new Error('GC not loaded.')) }
-    if (!url) { return }
+    if (!url) { return q.reject('No URL specified.') }
+    if (typeof url !== 'string') { return q.reject('URL should be a string.') }
     if (this._defer && this._defer.promise.inspect().state === 'pending') { return q.reject('Request already in progress.') }
 
     const arr = url.match(/[SM]([0-9]*)A([0-9]*)D([0-9]*)/)
+    if (!arr) { return q.reject('Malformed URL.') }
 
     const firstS = url[0] === 'S'
     const param_s = firstS ? arr[1] : '0'
