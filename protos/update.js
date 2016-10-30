@@ -3,6 +3,7 @@ import https from 'https'
 
 const baseUrl = 'https://raw.githubusercontent.com/SteamDatabase/GameTracking/master/Protobufs/csgo/'
 const protos = [
+  'engine_gcmessages.proto',
   'base_gcmessages.proto',
   'cstrike15_gcmessages.proto',
   'gcsdk_gcmessages.proto',
