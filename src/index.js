@@ -17,8 +17,15 @@ class FloatClient extends EventEmitter {
 
     super()
 
-    this._client = new SteamClient()
-    this._user = new SteamUser(this._client)
+    let customClient = false
+    if (props.client) {
+      this._client = props.client
+      delete props.client
+      customClient = true
+    } else {
+      this._client = new SteamClient()
+    }
+
     this._gc = new SteamGameCoordinator(this._client, 730)
 
     this._gcReady = false
@@ -28,50 +35,61 @@ class FloatClient extends EventEmitter {
 
     this.debug = debug || false
 
-    this._client.on('connected', () => {
-      if (this.debug) { console.log('[connected]') }
-      this.emit('connected')
-      this._user.logOn(props)
-    })
+    if (!customClient) {
+      this._user = new SteamUser(this._client)
 
-    this._client.on('logOnResponse', response => {
-      if (response.eresult !== EResult.OK) {
-        if (this.debug) { console.log('[login failed]') }
-        return this.emit('disconnected')
-      }
-
-      if (this.debug) { console.log('[logged]') }
-      this.emit('logged')
-
-      this._user.gamesPlayed({
-        games_played: [{ game_id: '730' }]
+      this._client.on('connected', () => {
+        if (this.debug) { console.log('[connected]') }
+        this.emit('connected')
+        this._user.logOn(props)
       })
 
+      this._client.on('logOnResponse', response => {
+        if (response.eresult !== EResult.OK) {
+          if (this.debug) { console.log('[login failed]') }
+          return this.emit('disconnected')
+        }
+
+        if (this.debug) { console.log('[logged]') }
+        this.emit('logged')
+
+        this._user.gamesPlayed({
+          games_played: [{ game_id: '730' }]
+        })
+
+        this._helloInt = setInterval(::this._sayHello, 2e3)
+        this._sayHello()
+      })
+
+      this._client.on('error', this.emit.bind(this, 'error'))
+
+      this._user.on('updateMachineAuth', (response, cb) => {
+        const sha_file = this._sha1(response.bytes)
+        this.emit('sentry', sha_file)
+        cb({ sha_file })
+      })
+
+      this._gc.on('message', ::this._handleGcMessage)
+      this._gc._client.on('message', ::this._handleGcMessage)
+
+      this._client.connect()
+    } else {
       this._helloInt = setInterval(::this._sayHello, 2e3)
       this._sayHello()
-    })
 
-    this._client.on('error', this.emit.bind(this, 'error'))
-
-    this._user.on('updateMachineAuth', (response, cb) => {
-      const sha_file = this._sha1(response.bytes)
-      this.emit('sentry', sha_file)
-      cb({ sha_file })
-    })
-
-    this._gc.on('message', ::this._handleGcMessage)
-    this._gc._client.on('message', ::this._handleGcMessage)
-
-    this._client.connect()
-
+      this._gc.on('message', ::this._handleGcMessage)
+      this._gc._client.on('message', ::this._handleGcMessage)
+    }
   }
 
   requestFloat (url) {
-
     if (!this._gcLoaded) { return this.emit('error', new Error('GC not loaded.')) }
     if (!url) { return q.reject('No URL specified.') }
     if (typeof url !== 'string') { return q.reject('URL should be a string.') }
     if (this._defer && this._defer.promise.inspect().state === 'pending') { return q.reject('Request already in progress.') }
+
+    if (!this._client.connected) { return q.reject('SteamClient is not connected.') }
+    if (!this._client.loggedOn) { return q.reject('SteamClient is not logged on.') }
 
     const arr = url.match(/[SM]([0-9]*)A([0-9]*)D([0-9]*)/)
     if (!arr) { return q.reject('Malformed URL.') }
@@ -123,7 +141,7 @@ class FloatClient extends EventEmitter {
    * Send hello to the gc once we're logged
    */
   _sayHello () {
-    if (!this._gc) { return }
+    if (!this._gc || !this._client.connected) { return }
     this._gc.send({ msg: 4006, proto: {} }, new protos.CMsgClientHello({}).toBuffer())
   }
 
