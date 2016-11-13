@@ -13,15 +13,11 @@ client
   .on('ready', () => {
 
     client.requestFloat('S76561198190349706A4757476613D16467978012840927110')
-      .then(floatValue => {
-        console.log('Skin float value:', floatValue)
-      })
+      .then(floatValue => console.log('Skin float value:', floatValue))
 
   })
   .on('sentry', data => {
     console.log('sentry', data)
     fs.writeFileSync('access.sentry', data)
   })
-  .on('error', err => {
-    console.log(err)
-  })
+  .on('error', err => console.log(err))
