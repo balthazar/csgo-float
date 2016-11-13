@@ -10,36 +10,44 @@ Only one request can be done at a time by each client. You'll have to wait for t
 
 ###### Client
 
-    new FloatClient(clientAuth, debug)
+```javascript
+new FloatClient(clientAuth, debug)
+```
 
 `clientAuth` {Object} SteamUser credentials to login / SteamClient
 
 `debug` {Boolean} Print some useful informations
 
-    // Init a client using a credentials object
-    const client = new FloatClient({
-      account_name: 'yeah',
-      password: 'this-is',
-      auth_code: 'definitely',
-      sha_sentryfile: 'right'
-    }, true)
+```javascript
+// Init a client using a credentials object
+const client = new FloatClient({
+  account_name: 'yeah',
+  password: 'this-is',
+  auth_code: 'definitely',
+  sha_sentryfile: 'right'
+}, true)
 
-    // Or by passing an existing SteamClient instance
-    // that should be connected and logged.
-    const steamClient = new SteamClient()
-    const client = new FloatClient(steamClient)
+// Or by passing an existing SteamClient instance
+// that should be connected and logged.
+const steamClient = new SteamClient()
+const client = new FloatClient(steamClient)
+```
 
 ###### Methods
 
-    client.requestFloat(url)
+```javascript
+client.requestFloat(url)
+```
 
 Returns a Promise.
 
 Where url is a string formatted like `S76561198190349706A4757476613D16467978012840927110`.
 
-    client.requestFloat('S76561198190349706A4757476613D16467978012840927110')
-      .then(floatValue => console.log(floatValue))
-      .catch(err => console.log(err))
+```javascript
+client.requestFloat('S76561198190349706A4757476613D16467978012840927110')
+  .then(floatValue => console.log(floatValue))
+  .catch(err => console.log(err))
+```
 
 ###### Events
 
