@@ -6,7 +6,6 @@ import {
   SteamUser,
   SteamGameCoordinator,
   EResult,
-  EPersonaState
 } from 'steam'
 
 import protos from '../protos'
@@ -48,7 +47,7 @@ class FloatClient extends EventEmitter {
         this.emit('logged')
 
         this._user.gamesPlayed({
-          games_played: [{ game_id: '730' }]
+          games_played: [{ game_id: '730' }],
         })
 
         this._helloInt = setInterval(::this._sayHello, 2e3)
@@ -98,7 +97,7 @@ class FloatClient extends EventEmitter {
       param_s,
       param_a,
       param_d,
-      param_m
+      param_m,
     }).toBuffer())
 
     this._defer = q.defer()
@@ -113,7 +112,7 @@ class FloatClient extends EventEmitter {
     const response = new protos.CMsgGCCStrike15_v2_Client2GCEconPreviewDataBlockResponse.decode(msg)
 
     const buf = new Buffer(4)
-    buf.writeUInt32LE(+response.iteminfo.paintwear, 0)
+    buf.writeUInt32LE(Number(response.iteminfo.paintwear), 0)
     if (this._defer) {
       this._defer.resolve(buf.readFloatLE(0).toString())
     }
@@ -123,12 +122,12 @@ class FloatClient extends EventEmitter {
    * Handle all gc messages.
    */
   _handleGcMessage (header, buffer, callback) {
-    const type = header.msg & ~this._mask;
+    const type = header.msg & ~this._mask
     if (this.debug) { console.log('[message]', type) }
 
     if (type === 4004) { this._gcLoaded() }
     if (type === 9157) { this._decodeFloat(header, buffer) }
-    if (callback) { callback(header, buffer) }
+    if (callback) { return callback(header, buffer) }
   }
 
   /**

@@ -7,7 +7,7 @@ const protos = [
   'base_gcmessages.proto',
   'cstrike15_gcmessages.proto',
   'gcsdk_gcmessages.proto',
-  'steammessages.proto'
+  'steammessages.proto',
 ]
 
 fs.readdir(__dirname, (err, filenames) => {

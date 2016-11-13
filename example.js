@@ -6,7 +6,7 @@ const client = new FloatClient({
   account_name: '',
   password: '',
   auth_code: '',
-  sha_sentryfile: fs.readFileSync('access.sentry')
+  sha_sentryfile: fs.readFileSync('access.sentry'),
 }, true)
 
 client
