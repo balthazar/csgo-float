@@ -15,16 +15,10 @@ class FloatClient extends EventEmitter {
 
   constructor (props, debug) {
 
-    super()
+    super(props)
 
-    let customClient = false
-    if (props.client) {
-      this._client = props.client
-      delete props.client
-      customClient = true
-    } else {
-      this._client = new SteamClient()
-    }
+    const customClient = props.constructor === SteamClient
+    this._client = customClient ? props : new SteamClient()
 
     this._gc = new SteamGameCoordinator(this._client, 730)
 
