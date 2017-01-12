@@ -76,7 +76,7 @@ class FloatClient extends EventEmitter {
   }
 
   requestFloat (url) {
-    if (!this._gcLoaded) { return this.emit('error', new Error('GC not loaded.')) }
+    if (!this._gcReady) { return this.emit('error', new Error('GC not loaded.')) }
     if (!url) { return q.reject('No URL specified.') }
     if (typeof url !== 'string') { return q.reject('URL should be a string.') }
     if (this._defer && this._defer.promise.inspect().state === 'pending') { return q.reject('Request already in progress.') }
