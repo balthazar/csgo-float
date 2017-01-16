@@ -1,7 +1,7 @@
 import fs from 'fs'
 import https from 'https'
 
-const baseUrl = 'https://raw.githubusercontent.com/SteamDatabase/GameTracking/master/Protobufs/csgo/'
+const baseUrl = 'https://raw.githubusercontent.com/SteamDatabase/GameTracking-CSGO/master/Protobufs/'
 const protos = [
   'engine_gcmessages.proto',
   'base_gcmessages.proto',
