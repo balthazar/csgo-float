@@ -20,6 +20,7 @@ class FloatClient extends EventEmitter {
     this._client = customClient ? props : new SteamClient()
 
     this._gc = new SteamGameCoordinator(this._client, 730)
+    this._gc.floatClient = this
 
     this._gcReady = false
     this._mask = 0x80000000
@@ -125,8 +126,8 @@ class FloatClient extends EventEmitter {
     const type = header.msg & ~this._mask
     if (this.debug) { console.log('[message]', type) }
 
-    if (type === 4004) { this._gcLoaded() }
-    if (type === 9157) { this._decodeFloat(header, buffer) }
+    if (type === 4004) { this.floatClient._gcLoaded() }
+    if (type === 9157) { this.floatClient._decodeFloat(header, buffer) }
     if (callback) { return callback(header, buffer) }
   }
 
